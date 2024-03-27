@@ -5,18 +5,16 @@
 
 ### Connections
 
-For different chip and host used, the connections may be different. Here show a example diagram of hardware connection, you can freely change the GPIO defined in start of `main/spi_eeprom_main.c` and change the hardware relatively.
-
+MFRC522 引脚连接:
 |      | ESP32c6 |
-| ---- | ----- |
-| Host | SPI1  |
-| VCC  | 3.3V  |
-| GND  | GND   |
-| DO   | 7     |
-| DI   | 8     |
-| SK   | 6     |
-| CS   | 13    |
-| ORG  | GND   |
+| ---- | --------|
+| Host | SPI2    |
+| VCC  | 3.3V    |
+| GND  | GND     |
+| MOSI | 5       |
+| MISO | 22      |
+| SDA  | 21      |
+| SCK  | 4       |  
 
 ### Notes
 
