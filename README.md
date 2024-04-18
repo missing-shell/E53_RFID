@@ -3,7 +3,7 @@
 
 ## MFRC522
 
-- 更多详细信息参照[MFRC522.md](docs\MFRC522\MFRC522.md)
+- 更多详细信息参照[MFRC522.md](docs/MFRC522/MFRC522.md)
 
 ### SPI通信
 

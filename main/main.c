@@ -55,7 +55,15 @@ static void rc522_handler(void *arg, esp_event_base_t base, int32_t event_id, vo
         // 打印标签的序列号信息
         ESP_LOGI(TAG, "Tag scanned (sn: %" PRIu64 ")", tag->serial_number);
         // 打印标签的序列号信息为十六进制
-        ESP_LOGI(TAG, "Tag scanned (sn: %02llx)", tag->serial_number);
+        uint64_t sn = tag->serial_number;
+
+        // 提取并逆序打印序列号的四个十六位部分
+        ESP_LOGI(TAG, "Tag scanned (sn: uid: %02x %02x %02x %02x checksum: %02x)",
+                 (uint8_t)(sn & 0xFF),         // 最低有效字节
+                 (uint8_t)((sn >> 8) & 0xFF),  // 次低有效字节
+                 (uint8_t)((sn >> 16) & 0xFF), // 次高有效字节
+                 (uint8_t)(sn >> 24),          // 最高有效字节
+                 (uint8_t)(sn >> 32));         // 最高有效字节
     }
     break;
 
@@ -66,8 +74,6 @@ static void rc522_handler(void *arg, esp_event_base_t base, int32_t event_id, vo
     }
     break;
     }
-
-    ESP_LOGI(TAG, "----------------------------");
 }
 /**
  * 初始化RC522 RFID模块。
@@ -104,7 +110,11 @@ static esp_err_t rc522_initialize()
 
     // 启动扫描器
     rc522_start(scanner);
-    rc522_enable_write_mode(scanner, 2);
+
+    uint16_t data[16] = {1, 1, 1, 2, 2, 2};
+    uint16_t blockaddr = 8; // 0~0xff;
+
+    rc522_enable_write_mode(scanner, data, 8);
     return ESP_OK;
 }
 
